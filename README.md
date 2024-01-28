@@ -1,6 +1,6 @@
 ### Tic Tac Toe sample project
 
-#### Front-end: React JS (for the game)
+#### [Front-end: React JS (for the game)](https://github.com/pmourey/tic-tac-toe-app)
 #### Back-end: Flask (to manage game state)
 
 Endpoint accessible here: https://philippe.mourey.com:1999
@@ -25,4 +25,8 @@ Endpoint accessible here: https://philippe.mourey.com:1999
     - `python -m pip install --upgrade pip`
   - Installer les modules du projet:
     - `pip install -r requirements.txt`
+
+### Run instructions
+- Lancer Flask:
+  - `python flask_app.py`
     
