@@ -28,7 +28,7 @@ app.state = copy.deepcopy(app.init_state)
 @app.route('/api/new_game', methods=['POST'])
 def new_game():
     app.state = copy.deepcopy(app.init_state)
-    app.logger.debug(f'initial_state = {app.state}')
+    #app.logger.debug(f'initial_state = {app.state}')
     return jsonify(app.state), 200
 
 
@@ -53,7 +53,7 @@ def move():
         if make_move(app, position, player):
             app.state["winner"] = check_winner(app)
             app.state["gameOver"] = True if app.state["winner"] else False
-            app.state["status"] = f"Player {player} on {position}" if app.state["winner"] is None else "Winner: " + app.state["winner"]
+            app.state["status"] = f"Player {player} on {position}" if app.state["winner"] is None else "Winner: " + app.state["winner"] if app.state["winner"] != 'Draw' else "Draw!"
         else:
             app.state["status"] = "Invalid move"
 
