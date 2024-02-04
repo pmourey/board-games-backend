@@ -1,4 +1,4 @@
-### Tic Tac Toe sample project
+### Game board's arena using React (for Front-end) and Flask (for Back-end)
 
 #### [Front-end: React JS (for the game)](https://github.com/pmourey/tic-tac-toe-app)
 #### Back-end: Flask (to manage game state)
@@ -6,9 +6,11 @@
 Endpoint accessible here: https://philippe.mourey.com:1999
 
 - Todos:
-  - [x] Implement game with one player
+  - [x] Implement Tic Tac Toe game with one player
+  - [x] Add Connect 4 game
   - [ ] Implement game with 2 players
-  - [ ] Create official certificate with Let's Encrypt
+  - [ ] Create official certificate with Let's Encrypt or use pythonAnywhere certificate
+
 
 ### Setup instructions
   - Clôner le dépot via GIT:
