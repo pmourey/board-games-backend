@@ -6,13 +6,11 @@ from flask import Flask, request, jsonify
 from functions import make_move_ttt, check_winner, is_valid_column, drop_piece, check_winner_ttt
 from flask_cors import CORS, cross_origin
 from config import Config
+from _socket import gethostbyname
 
 app = Flask(__name__, static_folder='static', static_url_path='/static')
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-PRIVATE_FOLDER = os.path.join('static', 'private')
-
-# app.config.from_pyfile(f'config.py')
 app.config.from_object('config.Config')
 
 # Set the secret key to some random bytes. Keep this really secret!
@@ -40,6 +38,15 @@ app.init_state_c4 = {
 app.state_ttt = copy.deepcopy(app.init_state_ttt)
 app.state_c4 = copy.deepcopy(app.init_state_c4)
 
+@app.route('/get_ip')
+def get_ip():
+    # Obtenir l'adresse IP du client
+    client_ip = request.remote_addr
+    # Obtenir le nom d'hôte du serveur
+    server_hostname = request.host.split(':')[0]
+    # Résoudre le nom d'hôte en adresse IP
+    server_ip = gethostbyname(server_hostname)
+    return f"Adresse IP du client : {client_ip}\nAdresse IP du serveur : {server_ip}"
 
 # @cross_origin()
 @app.route('/api/new_game_ttt', methods=['POST'])
@@ -128,23 +135,3 @@ def move_c4():
 
     except ValueError as e:
         return jsonify({'error': str(e)}), 500
-
-
-# if __name__ == '__main__':
-#     # app.logger.debug(app.config)
-#     app.logger.debug('SSL_MODE = ' + str(app.config['SSL_MODE']))
-#     if not app.config['SSL_MODE']:
-#         app.run(debug=True, host='0.0.0.0', port=5000)
-#     else:
-#         # Path to SSL certificate and private key files
-#         # ssl_cert_path = f'{PRIVATE_FOLDER}/cert.pem'
-#         # ssl_key_path = f'{PRIVATE_FOLDER}/key.pem'
-#         ssl_cert_path = f'{PRIVATE_FOLDER}/certificate.pem'
-#         ssl_key_path = f'{PRIVATE_FOLDER}/private_key.pem'
-#         # Load SSL context with passphrase
-#         ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-#         ssl_context.load_cert_chain(certfile=ssl_cert_path, keyfile=ssl_key_path, password='name of cat')
-#         app.logger.debug(app.config)
-#
-#         # Run the Flask app with HTTPS enabled
-#         app.run(debug=True, host='0.0.0.0', port=1443, ssl_context=ssl_context)
