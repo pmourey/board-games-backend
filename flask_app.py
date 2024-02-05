@@ -130,21 +130,21 @@ def move_c4():
         return jsonify({'error': str(e)}), 500
 
 
-if __name__ == '__main__':
-    # app.logger.debug(app.config)
-    app.logger.debug('SSL_MODE = ' + str(app.config['SSL_MODE']))
-    if not app.config['SSL_MODE']:
-        app.run(debug=True, host='0.0.0.0', port=5000)
-    else:
-        # Path to SSL certificate and private key files
-        # ssl_cert_path = f'{PRIVATE_FOLDER}/cert.pem'
-        # ssl_key_path = f'{PRIVATE_FOLDER}/key.pem'
-        ssl_cert_path = f'{PRIVATE_FOLDER}/certificate.pem'
-        ssl_key_path = f'{PRIVATE_FOLDER}/private_key.pem'
-        # Load SSL context with passphrase
-        ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-        ssl_context.load_cert_chain(certfile=ssl_cert_path, keyfile=ssl_key_path, password='name of cat')
-        app.logger.debug(app.config)
-
-        # Run the Flask app with HTTPS enabled
-        app.run(debug=True, host='0.0.0.0', port=1443, ssl_context=ssl_context)
+# if __name__ == '__main__':
+#     # app.logger.debug(app.config)
+#     app.logger.debug('SSL_MODE = ' + str(app.config['SSL_MODE']))
+#     if not app.config['SSL_MODE']:
+#         app.run(debug=True, host='0.0.0.0', port=5000)
+#     else:
+#         # Path to SSL certificate and private key files
+#         # ssl_cert_path = f'{PRIVATE_FOLDER}/cert.pem'
+#         # ssl_key_path = f'{PRIVATE_FOLDER}/key.pem'
+#         ssl_cert_path = f'{PRIVATE_FOLDER}/certificate.pem'
+#         ssl_key_path = f'{PRIVATE_FOLDER}/private_key.pem'
+#         # Load SSL context with passphrase
+#         ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+#         ssl_context.load_cert_chain(certfile=ssl_cert_path, keyfile=ssl_key_path, password='name of cat')
+#         app.logger.debug(app.config)
+#
+#         # Run the Flask app with HTTPS enabled
+#         app.run(debug=True, host='0.0.0.0', port=1443, ssl_context=ssl_context)
