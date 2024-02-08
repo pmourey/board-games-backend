@@ -1,6 +1,6 @@
 ### Game board's arena using React (for Front-end) and Flask (for Back-end)
 
-#### [Front-end: React JS (for the game)](https://github.com/pmourey/tic-tac-toe-app)
+#### [Front-end: React JS (for the game)](https://github.com/pmourey/board-games-frontend)
 #### Back-end: Flask (to manage game state)
 
 Endpoint accessible here: http://philippe.mourey.com:1999
