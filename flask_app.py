@@ -1,6 +1,7 @@
 import copy
 import os
 import ssl
+from random import randint, choice
 
 from flask import Flask, request, jsonify
 from functions import make_move_ttt, check_winner, is_valid_column, drop_piece, check_winner_ttt
@@ -18,12 +19,14 @@ app.config.from_object('config.Config')
 
 BOARD_SIZE_TTT = 9
 BOARD_SIZE_C4 = 42
+BOARD_WIDTH_C4 = 7
 
 app.init_state_ttt = {
     "squares": [None] * BOARD_SIZE_TTT,
     "xIsNext": True,
     "gameOver": False,
     "status": "New game",
+    "numPlayers": 1,
     "winner": None
 }
 
@@ -32,6 +35,7 @@ app.init_state_c4 = {
     "xIsNext": True,
     "gameOver": False,
     "status": "New game",
+    "numPlayers": 1,
     "winner": None
 }
 
@@ -57,8 +61,15 @@ def new_game_ttt():
 
 @app.route('/api/new_game_c4', methods=['POST'])
 def new_game_c4():
-    app.state_c4 = copy.deepcopy(app.init_state_c4)
-    return jsonify(app.state_c4), 200
+    try:
+        players = request.json.get('players')
+        app.state_c4 = copy.deepcopy(app.init_state_c4)
+        app.state_c4["numPlayers"] = players
+        app.logger.debug(f'nb player = {players}')
+        return jsonify(app.state_c4), 200
+
+    except ValueError as e:
+        return jsonify({'error': request.on_json_loading_failed(e)}), 500
 
 
 @app.route('/api/move_ttt', methods=['POST'])
@@ -88,6 +99,19 @@ def move_ttt():
             app.state_ttt["status"] = "Invalid move"
 
         app.logger.debug(app.state_ttt["status"])
+
+        if app.state_ttt["numPlayers"] == 1 and not app.state_ttt["gameOver"]:
+            # Computer plays
+            player = 'O'
+            computer_moves = [x for x in range(BOARD_SIZE_TTT) if not app.state_ttt["squares"][x]]
+            position = choice(computer_moves)
+            app.state_ttt["squares"][position] = 'O'
+            app.state_ttt["xIsNext"] = True
+            app.state_ttt["winner"] = check_winner_ttt(app)
+            app.logger.debug(app.state_ttt["winner"])
+            app.state_ttt["status"] += f" - Computer {player} on position {position}" if app.state_ttt["winner"] is None \
+                else " - Winner: " + app.state_ttt["winner"] if app.state_ttt["winner"] != 'Draw' else " - Draw!"
+
         return jsonify(app.state_ttt), 200
 
     except ValueError as e:
@@ -131,6 +155,22 @@ def move_c4():
         app.state_c4["xIsNext"] = not app.state_c4["xIsNext"]
 
         app.logger.debug(app.state_c4["status"])
+
+        if app.state_c4["numPlayers"] == 1 and not app.state_c4["gameOver"]:
+            # Computer plays
+            player = 'O'
+            computer_moves = [c for c in range(BOARD_WIDTH_C4) if is_valid_column(board, c)]
+            column = choice(computer_moves)
+            row = drop_piece(app, column, player)
+            board[row][column] = player
+            app.state_c4["squares"] = [item for sublist in board for item in sublist]
+            app.state_c4["xIsNext"] = True
+            app.state_c4["winner"] = check_winner(board)
+            app.logger.debug(app.state_c4["winner"])
+            app.state_c4["status"] += f" - Computer {player} in column {column} and row {row}" if app.state_c4["winner"] is None \
+                else " - Winner: " + app.state_c4["winner"] if app.state_c4["winner"] != 'Draw' else " - Draw!"
+
+
         return jsonify(app.state_c4), 200
 
     except ValueError as e:

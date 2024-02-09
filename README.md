@@ -8,7 +8,8 @@ Endpoint accessible here: http://philippe.mourey.com:1999
 - Todos:
   - [x] Implement Tic Tac Toe game with one player
   - [x] Add Connect 4 game
-  - [ ] Implement game with 2 players
+  - [x] Implement game with 2 players (player + computer)
+  - [ ] Implement game with 2 player (computer + computer)s
   - [ ] Create official certificate with Let's Encrypt or use pythonAnywhere certificate
 
 
