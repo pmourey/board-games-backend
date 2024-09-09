@@ -9,9 +9,11 @@ Endpoint accessible here: http://philippe.mourey.com:1999
   - [x] Implement Tic Tac Toe game with one player
   - [x] Add Connect 4 game
   - [x] Implement game with 2 players (player + computer)
-  - [ ] Implement game with 2 player (computer + computer)s
+  - [ ] Implement game with 2 player (computer + computer)
   - [ ] Create official certificate with Let's Encrypt or use pythonAnywhere certificate
 
+- Bugs:
+  - [x] fix end condition when computer wins
 
 ### Setup instructions
   - Clôner le dépot via GIT:
