@@ -3,7 +3,7 @@
 #### [Front-end: React JS (for the game)](https://github.com/pmourey/board-games-frontend)
 #### Back-end: Flask (to manage game state)
 
-Endpoint accessible here: http://philippe.mourey.com:1999
+Endpoint accessible here: http://philippe.mourey.com:60000
 
 - Todos:
   - [x] Implement Tic Tac Toe game with one player
