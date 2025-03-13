@@ -1,8 +1,5 @@
-from random import choice
-
 import chess
 import chess.engine
-
 import pygame
 
 SQUARE_SIZE = 80  # Made smaller for better display
@@ -39,74 +36,6 @@ def get_square_from_mouse(pos):
 	row = y // SQUARE_SIZE
 	row = 7 - row  # Flip row because chess board is displayed bottom-up
 	return chess.square(col, row)
-
-
-piece_square_table = {chess.PAWN: [0, 5, 5, 0, 5, 10, 50, 0, 0, 10, -5, 0, 5, 10, 50, 0, 0, 10, 10, 20, 30, 30, 50, 0, 5, 10, 20, 25, 35, 40, 50, 5, 5, 10, 20, 25, 35, 40, 50, 5, 0, 10, 10, 20, 30, 30, 50, 0, 0, 10, -5, 0, 5, 10, 50, 0, 0, 5, 5, 0, 5, 10, 50, 0], chess.KNIGHT: [-50, -40, -30, -30, -30, -30, -40, -50] * 8, chess.BISHOP: [-20, -10, -10, -10, -10, -10, -10, -20] * 8, chess.ROOK: [0, 0, 5, 10, 10, 5, 0, 0] * 8, chess.QUEEN: [-20, -10, -5, -5, -5, -5, -10, -20] * 8, chess.KING: [-30, -40, -40, -50, -50, -40, -40, -30] * 8}
-
-
-def minimax(board, depth, alpha, beta, maximizing_player):
-	if depth == 0 or board.is_game_over():
-		return evaluate_board(board)
-
-	legal_moves = list(board.legal_moves)
-	if maximizing_player:
-		max_eval = float('-inf')
-		for move in legal_moves:
-			board.push(move)
-			eval = minimax(board, depth - 1, alpha, beta, False)
-			board.pop()
-			max_eval = max(max_eval, eval)
-			alpha = max(alpha, eval)
-			if beta <= alpha:
-				break
-		return max_eval
-	else:
-		min_eval = float('inf')
-		for move in legal_moves:
-			board.push(move)
-			eval = minimax(board, depth - 1, alpha, beta, True)
-			board.pop()
-			min_eval = min(min_eval, eval)
-			beta = min(beta, eval)
-			if beta <= alpha:
-				break
-		return min_eval
-
-
-def evaluate_board(board):
-	piece_values = {chess.PAWN: 1, chess.KNIGHT: 3, chess.BISHOP: 3, chess.ROOK: 5, chess.QUEEN: 9, chess.KING: 1000}
-	evaluation = 0
-	for piece_type in piece_values:
-		evaluation += len(board.pieces(piece_type, chess.WHITE)) * piece_values[piece_type]
-		evaluation -= len(board.pieces(piece_type, chess.BLACK)) * piece_values[piece_type]
-
-		for square in board.pieces(piece_type, chess.WHITE):
-			evaluation += piece_square_table.get(piece_type, [0] * 64)[square]
-		for square in board.pieces(piece_type, chess.BLACK):
-			evaluation -= piece_square_table.get(piece_type, [0] * 64)[square]
-
-	return evaluation
-
-
-def find_best_move_old(board, depth=4):
-	best_moves = []
-	best_value = float('-inf')
-	alpha = float('-inf')
-	beta = float('inf')
-
-	for move in board.legal_moves:
-		board.push(move)
-		board_value = minimax(board, depth - 1, alpha, beta, False)
-		board.pop()
-
-		if board_value > best_value:
-			best_value = board_value
-			best_moves = [move]
-		elif board_value == best_value:
-			best_moves.append(move)
-		alpha = max(alpha, best_value)
-
-	return choice(best_moves) if best_moves else None
 
 
 def find_best_move(board, engine_path="stockfish"):
