@@ -5,13 +5,15 @@
 - https://github.com/mcostalba/Stockfish.git
 - https://github.com/phracker/MacOSX-SDKs/releases/tag/10.15
 
-Compiling instructions:
-- [x] macOSX 10.15:
-    ```
-    sudo mv MacOSX10.15.sdk /Library/Developer/CommandLineTools/SDKs/
+# Install Stockfish:
+  https://stockfishchess.org/download/
+
+Compiling instructions:macOSX 10.15:
+```
     export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk
     uname -a
     make build ARCH=x86-64 COMP=clang
-  ```
+```
+  
 ### White wins!
 ![White wins!](white_wins.png)
