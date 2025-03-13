@@ -15,5 +15,5 @@ Compiling instructions:macOSX 10.15:
     make build ARCH=x86-64 COMP=clang
 ```
   
-### White wins!
-![White wins!](white_wins.png)
+### Black wins!
+![Black wins!](black_wins.png)
